@@ -14,7 +14,7 @@ class OptionCollection extends Collection
 {
     public function __construct(Option ...$options)
     {
-        parent::__construct($options);
+        parent::__construct(...$options);
     }
 
     /**
