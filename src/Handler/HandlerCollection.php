@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kosmosafive\Bitrix\Filter\Handler;
 
+use InvalidArgumentException;
 use Kosmosafive\Bitrix\DS\Collection;
 
 /**
@@ -18,6 +19,10 @@ class HandlerCollection extends Collection
      */
     public function add(mixed $value): HandlerCollection
     {
+        if (!$value instanceof HandlerConfig) {
+            throw new InvalidArgumentException("This collection only accepts instances of " . HandlerConfig::class);
+        }
+
         $handler = $value->getHandler();
         $this->values[$handler->getType()][$value->getFieldClass()] = $handler;
 
