@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kosmosafive\Bitrix\Filter\ValueObject;
 
+use InvalidArgumentException;
 use Kosmosafive\Bitrix\DS\Collection;
 
 /**
@@ -23,6 +24,10 @@ class OptionCollection extends Collection
      */
     public function add(mixed $value): OptionCollection
     {
+        if (!$value instanceof Option) {
+            throw new InvalidArgumentException("This collection only accepts instances of " . Option::class);
+        }
+
         return parent::add($value);
     }
 

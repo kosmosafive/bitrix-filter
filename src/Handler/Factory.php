@@ -12,7 +12,7 @@ use Kosmosafive\Bitrix\Filter\Handler;
 
 final class Factory
 {
-    public const string MODULE_ID = 'rdn.filter';
+    public const string MODULE_ID = 'main';
     public const string EVENT_ON_CREATE = 'onCreateHandlerCollection';
     private HandlerCollection $handlerCollection;
     private static self $instance;
