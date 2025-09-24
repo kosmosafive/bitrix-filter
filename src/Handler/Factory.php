@@ -52,7 +52,8 @@ final class Factory
             ->add(new HandlerConfig(new Handler\ORM\Range(), Field\DateRange::class))
             ->add(new HandlerConfig(new Handler\ORM\Equal(), Field\Select::class))
             ->add(new HandlerConfig(new Handler\ORM\Equal(), Field\Boolean::class))
-            ->add(new HandlerConfig(new Handler\ORM\DatePeriod(), Field\DatePeriod::class));
+            ->add(new HandlerConfig(new Handler\ORM\DatePeriod(), Field\DatePeriod::class))
+            ->add(new HandlerConfig(new Handler\ORM\Equal(), Field\Uuid::class));
     }
 
     private function __clone()

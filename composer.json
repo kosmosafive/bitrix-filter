@@ -22,7 +22,8 @@
   "require": {
     "php": ">=8.4",
     "kosmosafive/bitrix-localization": "^2.0",
-    "kosmosafive/bitrix-ds": "^1.0"
+    "kosmosafive/bitrix-ds": "^1.0",
+    "ramsey/uuid": "^4.9"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.87"
