@@ -13,6 +13,6 @@ class PropertyCollection extends Collection
 {
     public function __construct(PropertyInterface ...$properties)
     {
-        parent::__construct($properties);
+        parent::__construct(...$properties);
     }
 }
