@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Kosmosafive\Bitrix\Filter\Field;
 
 use Kosmosafive\Bitrix\Filter\FieldConfig\FieldConfigInterface;
+use Ramsey\Uuid;
+use Throwable;
 
 abstract class Base implements FieldInterface
 {
@@ -75,6 +77,15 @@ abstract class Base implements FieldInterface
     protected function filterBoolean(mixed $value): bool
     {
         return ($value === 'true') || ((int) $value === 1) || ($value === 'on') || ($value === 'Y');
+    }
+
+    protected function filterUuid(mixed $value): ?Uuid\UuidInterface
+    {
+        try {
+            return Uuid\Uuid::fromString($value);
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     public function getFieldConfig(): FieldConfigInterface
