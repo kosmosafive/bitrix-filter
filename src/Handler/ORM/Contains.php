@@ -7,6 +7,7 @@ namespace Kosmosafive\Bitrix\Filter\Handler\ORM;
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ORM\Query\Query;
 use Kosmosafive\Bitrix\Filter\Field\FieldInterface;
+use Kosmosafive\Bitrix\Filter\FieldConfig\Property;
 use Kosmosafive\Bitrix\Filter\QueryBuilder;
 use Kosmosafive\Bitrix\Filter\ValueObject\FormData;
 
@@ -32,18 +33,33 @@ class Contains extends Base
             return;
         }
 
-        $propertyName = $field->getFieldConfig()->getProperty()->getName();
+        $property = $field->getFieldConfig()->getProperty();
 
-        if (is_array($formValue)) {
+        if ($property instanceof Property\Multiple) {
             $queryFilter = Query::filter()->logic('or');
 
-            foreach ($formValue as $singleValue) {
-                $queryFilter->whereLike($propertyName, $singleValue);
+            foreach ($property->getPropertyCollection() as $singleProperty) {
+                $propertyName = $singleProperty->getName();
+                foreach ((array) $formValue as $singleValue) {
+                    $queryFilter->whereLike($propertyName, $singleValue);
+                }
             }
 
             $queryBuilder->getQuery()->where($queryFilter);
-        } else {
-            $queryBuilder->getQuery()->whereLike($propertyName, $formValue);
+        } elseif ($property instanceof Property\Single) {
+            $propertyName = $property->getName();
+
+            if (is_array($formValue)) {
+                $queryFilter = Query::filter()->logic('or');
+
+                foreach ($formValue as $singleValue) {
+                    $queryFilter->whereLike($propertyName, $singleValue);
+                }
+
+                $queryBuilder->getQuery()->where($queryFilter);
+            } else {
+                $queryBuilder->getQuery()->whereLike($propertyName, $formValue);
+            }
         }
     }
 }
