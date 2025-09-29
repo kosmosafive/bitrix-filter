@@ -14,7 +14,8 @@ class DateRange extends Base
         FieldConfig\Simple $fieldConfig,
         protected readonly ?Type\Datetime $minDate = null,
         protected readonly ?Type\Datetime $maxDate = null,
-        protected readonly bool $dateOnly = true
+        protected readonly bool $dateOnly = true,
+        protected readonly string $dateFormat = DATE_ATOM
     ) {
         parent::__construct($fieldConfig);
 
@@ -32,7 +33,7 @@ class DateRange extends Base
                 continue;
             }
 
-            $filteredValue = Type\DateTime::tryParse($value, DATE_ATOM);
+            $filteredValue = Type\DateTime::tryParse($value, $this->dateFormat);
             if ($filteredValue) {
                 if ($key === 'from') {
                     $filteredValue->setTime(0, 0);
@@ -48,7 +49,7 @@ class DateRange extends Base
                         && ($filteredValue->getTimestamp() < $this->minDate->getTimestamp())
                     )
                     || (
-                        $this->maxDate->getTimestamp()
+                        $this->maxDate
                         && ($filteredValue->getTimestamp() > $this->maxDate->getTimestamp())
                     )
                 ) {
